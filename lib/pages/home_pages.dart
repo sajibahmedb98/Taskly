@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:task_app/models/task.dart';
 
 class Homepge extends StatefulWidget {
   const Homepge({super.key});
@@ -37,69 +38,29 @@ class _HomepgeState extends State<Homepge> {
   }
 
   Widget _taskList() {
-    return ListView(
-      children: [
-        ListTile(
-          title: const Text(
-            'Do Laundry',
+    List tasks = _box!.values.toList();
+    return ListView.builder(
+      itemCount: tasks.length,
+      itemBuilder: (BuildContext context, int index) {
+        var task = Task.fromMap(tasks[index]);
+        return ListTile(
+          title: Text(
+            task.content,
             style: TextStyle(
-              decoration: TextDecoration.none,
+              decoration: task.isDone ? TextDecoration.lineThrough : null,
             ),
           ),
-          trailing: const Icon(
-            Icons.check_box_outlined,
-            color: Color.fromARGB(255, 110, 6, 6),
+          trailing: Icon(
+            task.isDone
+                ? Icons.check_box_outlined
+                : Icons.check_box_outline_blank,
+            color: const Color.fromARGB(255, 110, 6, 6),
           ),
           subtitle: Text(
             DateTime.now().toString(),
           ),
-        ),
-        ListTile(
-          title: const Text(
-            'Morning Walk',
-            style: TextStyle(
-              decoration: TextDecoration.none,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.check_box_outlined,
-            color: Color.fromARGB(255, 110, 6, 6),
-          ),
-          subtitle: Text(
-            DateTime.now().toString(),
-          ),
-        ),
-        ListTile(
-          title: const Text(
-            'Do Coding',
-            style: TextStyle(
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.check_box_outlined,
-            color: Color.fromARGB(255, 110, 6, 6),
-          ),
-          subtitle: Text(
-            DateTime.now().toString(),
-          ),
-        ),
-        ListTile(
-          title: const Text(
-            'Do Coding',
-            style: TextStyle(
-              decoration: TextDecoration.lineThrough,
-            ),
-          ),
-          trailing: const Icon(
-            Icons.check_box_outlined,
-            color: Color.fromARGB(255, 110, 6, 6),
-          ),
-          subtitle: Text(
-            DateTime.now().toString(),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 

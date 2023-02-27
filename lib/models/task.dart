@@ -1,26 +1,30 @@
 class Task {
   String content;
-  DateTime timestamp;
+  // DateTime dateTime ;
   bool isDone;
+  // String dateTime = "2023-02-27";
+  // DateTime dateTime = DateTime.parse(dateTime);
+
+  final dateTime = DateTime.now();
 
   Task({
     required this.content,
-    required this.timestamp,
-    required this.isDone,
+    // required this.dateTime,
+    required this.isDone, required dateTime,
   });
 
   factory Task.fromMap(Map task) {
     return Task(
       content: task['content'],
-      timestamp: task['content'],
-      isDone: task['content'],
+      dateTime: task['dateTime'],
+      isDone: task['isDone'],
     );
   }
 
   Map toMap() {
     return {
       'content': content,
-      'timestamp': timestamp,
+      'dateTime': dateTime,
       'isDone': isDone,
     };
   }
