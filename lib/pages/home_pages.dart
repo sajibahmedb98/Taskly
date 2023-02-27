@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task_app/models/task.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class Homepge extends StatefulWidget {
   const Homepge({super.key});
@@ -20,11 +21,12 @@ class _HomepgeState extends State<Homepge> {
     _deviceHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        backgroundColor: Colors.grey[200],
+        elevation: 10,
+        scrolledUnderElevation: _deviceHeight * 0.10,
         toolbarHeight: _deviceHeight * 0.60,
         title: const Text(
-          'T a s k l y !',
+          'T a s k !',
           style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
@@ -44,6 +46,7 @@ class _HomepgeState extends State<Homepge> {
       itemBuilder: (BuildContext context, int index) {
         var task = Task.fromMap(tasks[index]);
         return ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 25),
           title: Text(
             task.content,
             style: TextStyle(
@@ -59,6 +62,23 @@ class _HomepgeState extends State<Homepge> {
           subtitle: Text(
             DateTime.now().toString(),
           ),
+          onTap: () {
+            setState(
+              () {
+                task.isDone = !task.isDone;
+                _box!.putAt(
+                  index,
+                  task.toMap(),
+                );
+              },
+            );
+          },
+          onLongPress: () {
+            _box!.deleteAt(index);
+            setState(() {
+              
+            });
+          },
         );
       },
     );
@@ -82,10 +102,10 @@ class _HomepgeState extends State<Homepge> {
 
   Widget _addTaskButton() {
     return FloatingActionButton(
-      splashColor: Colors.red,
-      backgroundColor: const Color.fromARGB(255, 110, 6, 6),
+      splashColor: const Color.fromARGB(255, 110, 6, 6),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       onPressed: _displayTaskPopop,
-      child: const Icon(Icons.add, color: Colors.white),
+      child: const Icon(Icons.add, color: Color.fromARGB(255, 109, 27, 27)),
     );
   }
 
@@ -98,7 +118,20 @@ class _HomepgeState extends State<Homepge> {
             elevation: 0,
             title: const Text('Add new Task'),
             content: TextField(
-              onSubmitted: (value) {},
+              onSubmitted: (_) {
+                if (_newTaskContent != null) {
+                  var task = Task(
+                    content: _newTaskContent!,
+                    isDone: false,
+                    dateTime: DateTime,
+                  );
+                  _box!.add(task.toMap());
+                  setState(() {
+                    _newTaskContent = null;
+                    Navigator.pop(context);
+                  });
+                }
+              },
               onChanged: (value) {
                 setState(() {
                   _newTaskContent = value;
