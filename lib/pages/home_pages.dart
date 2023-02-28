@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:task_app/models/task.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class Homepge extends StatefulWidget {
   const Homepge({super.key});
@@ -21,10 +23,11 @@ class _HomepgeState extends State<Homepge> {
     _deviceHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[200],
-        elevation: 10,
-        scrolledUnderElevation: _deviceHeight * 0.10,
-        toolbarHeight: _deviceHeight * 0.60,
+        backgroundColor: const Color.fromARGB(255, 250, 238, 242),
+        shadowColor: const Color.fromARGB(255, 110, 6, 6),
+        elevation: 5,
+        scrolledUnderElevation: _deviceHeight * 0.30,
+        toolbarHeight: _deviceHeight * 0.50,
         title: const Text(
           'T a s k !',
           style: TextStyle(
@@ -34,7 +37,7 @@ class _HomepgeState extends State<Homepge> {
         ),
       ),
       body: _taskView(),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 250, 249, 217),
       floatingActionButton: _addTaskButton(),
     );
   }
@@ -45,40 +48,66 @@ class _HomepgeState extends State<Homepge> {
       itemCount: tasks.length,
       itemBuilder: (BuildContext context, int index) {
         var task = Task.fromMap(tasks[index]);
-        return ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-          title: Text(
-            task.content,
-            style: TextStyle(
-              decoration: task.isDone ? TextDecoration.lineThrough : null,
+        return Slidable(
+          startActionPane: ActionPane(
+            motion: const StretchMotion(),
+            children: [
+              SlidableAction(
+                flex: 5,
+                backgroundColor: Colors.red,
+                icon: EvaIcons.trashOutline,
+                label: 'Delete',
+                onPressed: (context) {
+                  _box!.deleteAt(index);
+                  setState(() {});
+                },
+              ),
+              SlidableAction(
+                flex: 3,
+                backgroundColor: Colors.green,
+                icon: Icons.add,
+                label: 'Add',
+                onPressed: (context) {},
+              ),
+            ],
+          ),
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+            title: Text(
+              task.content,
+              style: GoogleFonts.openSans(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                decoration: task.isDone ? TextDecoration.lineThrough : null,
+              ),
             ),
+            leading: const Icon(EvaIcons.arrowIosForwardOutline),
+            trailing: Icon(
+              task.isDone
+                  ? Icons.check_box_outlined
+                  : Icons.check_box_outline_blank,
+              color: const Color.fromARGB(255, 110, 6, 6),
+            ),
+            subtitle: Text(
+              DateTime.now().toString(),
+            ),
+            onTap: () {
+              setState(
+                () {
+                  task.isDone = !task.isDone;
+                  _box!.putAt(
+                    index,
+                    task.toMap(),
+                  );
+                },
+              );
+            },
+            onLongPress: () {
+              _box!.deleteAt(index);
+              setState(() {});
+            },
           ),
-          trailing: Icon(
-            task.isDone
-                ? Icons.check_box_outlined
-                : Icons.check_box_outline_blank,
-            color: const Color.fromARGB(255, 110, 6, 6),
-          ),
-          subtitle: Text(
-            DateTime.now().toString(),
-          ),
-          onTap: () {
-            setState(
-              () {
-                task.isDone = !task.isDone;
-                _box!.putAt(
-                  index,
-                  task.toMap(),
-                );
-              },
-            );
-          },
-          onLongPress: () {
-            _box!.deleteAt(index);
-            setState(() {
-              
-            });
-          },
         );
       },
     );
