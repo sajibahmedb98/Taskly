@@ -40,23 +40,24 @@ class _HomepgeState extends State<Homepge> {
       body: _taskView(),
       backgroundColor: Colors.grey[300],
       bottomNavigationBar: Container(
-        color: Colors.grey.shade500,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade700,
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
           child: GNav(
-              backgroundColor: Colors.grey.shade500,
-              color: Colors.black,
-              activeColor: Colors.white,
-              tabBackgroundColor: Colors.grey.shade700,
+              backgroundColor: Colors.grey.shade700,
+              color: Colors.white,
+              activeColor: Colors.black,
+              tabBackgroundColor: Colors.green,
               padding: const EdgeInsets.all(16),
               gap: 8,
               iconSize: 25,
-              tabs:  [
+              tabs: [
                 const GButton(
                   icon: Icons.home,
                   text: 'Home',
                 ),
-                
                 const GButton(
                   icon: Icons.search,
                   text: 'Search',
@@ -118,25 +119,26 @@ class _HomepgeState extends State<Homepge> {
           child: Container(
             padding: const EdgeInsets.all(4),
             child: ListTile(
+              iconColor: Colors.red,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               title: Text(
                 task.content,
                 style: GoogleFonts.openSans(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 17,
-                  decoration: task.isDone ? TextDecoration.lineThrough : null,
-                ),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    decoration: task.isDone ? TextDecoration.lineThrough : null,
+                    decorationThickness: 4),
               ),
               leading: const Icon(
                 EvaIcons.arrowIosForwardOutline,
-                color: Colors.black,
+                // color: Colors.black,
               ),
               trailing: Icon(
                 task.isDone
                     ? EvaIcons.checkmarkCircle
                     : EvaIcons.plusCircleOutline,
-                color: const Color.fromARGB(255, 110, 6, 6),
+                // color: const Color.fromARGB(255, 110, 6, 6),
               ),
               subtitle: Text(
                 DateTime.now().toString(),
