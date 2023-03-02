@@ -51,7 +51,7 @@ class _HomepgeState extends State<Homepge> {
                 backgroundColor: bottomNavColor,
                 color: Colors.black,
                 activeColor: Colors.black,
-                tabBackgroundColor: Colors.grey.shade200,
+                tabBackgroundColor: Colors.green.shade200,
                 padding: const EdgeInsets.all(16),
                 gap: 8,
                 iconSize: 25,
