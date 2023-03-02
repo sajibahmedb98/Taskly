@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/date_time_patterns.dart';
+import 'package:intl/intl.dart';
 import 'package:task_app/colors.dart';
 import 'package:task_app/models/task.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -57,19 +59,23 @@ class _HomepgeState extends State<Homepge> {
                 iconSize: 25,
                 tabs: [
                   const GButton(
-                    icon: Icons.home,
+                    icon: EvaIcons.homeOutline,
+                    iconSize: 30,
                     text: 'Home',
                   ),
                   const GButton(
-                    icon: Icons.search,
+                    icon: EvaIcons.searchOutline,
+                    iconSize: 30,
                     text: 'Search',
                   ),
                   const GButton(
-                    icon: Icons.settings,
-                    text: 'Setting',
+                    icon: EvaIcons.listOutline,
+                    iconSize: 30,
+                    text: 'Task List',
                   ),
                   GButton(
-                    icon: Icons.add,
+                    icon: EvaIcons.plusCircleOutline,
+                    iconSize: 30,
                     text: 'Add',
                     onPressed: () {
                       _displayTaskPopop();
@@ -87,6 +93,8 @@ class _HomepgeState extends State<Homepge> {
     return ListView.builder(
       itemCount: tasks.length,
       itemBuilder: (BuildContext context, int index) {
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('MMM d, h:mm a').format(now);
         int itemCount = tasks.length;
         int reversedIndex = itemCount - 1 - index;
         var task = Task.fromMap(tasks[reversedIndex]);
@@ -130,12 +138,11 @@ class _HomepgeState extends State<Homepge> {
             title: Text(
               task.content,
               style: GoogleFonts.openSans(
-                fontWeight: FontWeight.w700,
-                fontSize: 18,
-                decoration: task.isDone ? TextDecoration.lineThrough : null,
-                decorationThickness: 5,
-                decorationColor: Colors.green.shade500
-              ),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  decoration: task.isDone ? TextDecoration.lineThrough : null,
+                  decorationThickness: 5,
+                  decorationColor: Colors.green.shade500),
             ),
             leading: const Icon(
               EvaIcons.arrowIosForwardOutline,
@@ -147,9 +154,7 @@ class _HomepgeState extends State<Homepge> {
                   : EvaIcons.plusCircleOutline,
               // color: const Color.fromARGB(255, 110, 6, 6),
             ),
-            subtitle: Text(
-              DateTime.now().toString(),
-            ),
+            subtitle: Text(formattedDate),
             onTap: () {
               setState(
                 () {
@@ -204,7 +209,7 @@ class _HomepgeState extends State<Homepge> {
                   var task = Task(
                     content: _newTaskContent!,
                     isDone: false,
-                    dateTime: DateTime,
+                    dateTime: DateTime.now(),
                   );
                   _box!.add(task.toMap());
                   setState(() {
