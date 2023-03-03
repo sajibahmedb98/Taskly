@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/date_time_patterns.dart';
 import 'package:intl/intl.dart';
 import 'package:task_app/colors.dart';
 import 'package:task_app/models/task.dart';
@@ -68,10 +67,13 @@ class _HomepgeState extends State<Homepge> {
                     iconSize: 30,
                     text: 'Search',
                   ),
-                  const GButton(
+                  GButton(
                     icon: EvaIcons.listOutline,
                     iconSize: 30,
                     text: 'Task List',
+                    onPressed: () {
+                      Navigator.of(context);
+                    },
                   ),
                   GButton(
                     icon: EvaIcons.plusCircleOutline,
@@ -89,6 +91,7 @@ class _HomepgeState extends State<Homepge> {
   }
 
   Widget _taskList() {
+    
     List tasks = _box!.values.toList();
     return ListView.builder(
       itemCount: tasks.length,
