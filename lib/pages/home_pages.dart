@@ -16,6 +16,7 @@ class Homepge extends StatefulWidget {
 }
 
 class _HomepgeState extends State<Homepge> {
+  // ignore: unused_field
   late double _deviceHeight, _deviceWidth;
   String? _newTaskContent;
 
