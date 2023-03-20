@@ -7,6 +7,7 @@ import 'package:task_app/colors.dart';
 import 'package:task_app/models/task.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:task_app/pages/completed_task_page.dart';
 
 class Homepge extends StatefulWidget {
   const Homepge({super.key});
@@ -32,67 +33,69 @@ class _HomepgeState extends State<Homepge> {
         // scrolledUnderElevation: _deviceHeight * 0.10,
         toolbarHeight: _deviceHeight * 0.2,
         title: const Text(
-          'T a s k !',
+          'T a s k l y !',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            color: Color.fromARGB(255, 41, 88, 40),
           ),
         ),
       ),
       body: _taskView(),
       backgroundColor: backgroundColor,
-      bottomNavigationBar: ClipRRect(
-        child: Container(
-          decoration: BoxDecoration(
-            color: bottomNavColor,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-            child: GNav(
-                backgroundColor: bottomNavColor,
-                color: Colors.black,
-                activeColor: Colors.black,
-                tabBackgroundColor: Colors.green.shade200,
-                padding: const EdgeInsets.all(16),
-                gap: 8,
-                iconSize: 25,
-                tabs: [
-                  const GButton(
-                    icon: EvaIcons.homeOutline,
-                    iconSize: 30,
-                    text: 'Home',
-                  ),
-                  const GButton(
-                    icon: EvaIcons.searchOutline,
-                    iconSize: 30,
-                    text: 'Search',
-                  ),
-                  GButton(
-                    icon: EvaIcons.listOutline,
-                    iconSize: 30,
-                    text: 'Task List',
-                    onPressed: () {
-                      Navigator.of(context);
-                    },
-                  ),
-                  GButton(
-                    icon: EvaIcons.plusCircleOutline,
-                    iconSize: 30,
-                    text: 'Add',
-                    onPressed: () {
-                      _displayTaskPopop();
-                    },
-                  ),
-                ]),
-          ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: bottomNavColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+          child: GNav(
+              backgroundColor: bottomNavColor,
+              color: Colors.black,
+              activeColor: Colors.black,
+              tabBackgroundColor: Colors.green.shade200,
+              padding: const EdgeInsets.all(16),
+              gap: 8,
+              iconSize: 25,
+              tabs: [
+                const GButton(
+                  icon: EvaIcons.homeOutline,
+                  iconSize: 30,
+                  text: 'Home',
+                ),
+                const GButton(
+                  icon: EvaIcons.searchOutline,
+                  iconSize: 30,
+                  text: 'Search',
+                ),
+                GButton(
+                  icon: EvaIcons.listOutline,
+                  iconSize: 30,
+                  text: 'Task List',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CompletedTask(),
+                      ),
+                    );
+                  },
+                ),
+                GButton(
+                  icon: EvaIcons.plusCircleOutline,
+                  iconSize: 30,
+                  text: 'Add',
+                  onPressed: () {
+                    _displayTaskPopop();
+                  },
+                ),
+              ]),
         ),
       ),
     );
   }
 
   Widget _taskList() {
-    
     List tasks = _box!.values.toList();
     return ListView.builder(
       itemCount: tasks.length,

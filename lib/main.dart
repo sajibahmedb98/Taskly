@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:task_app/pages/home_pages.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:task_app/pages/task_grid.dart';
+import 'package:task_app/pages/welocme_page.dart';
 
 void main() async {
   await Hive.initFlutter('hive_boxes');
+  await Hive.openBox('hive_boxes');
   runApp(const MyApp());
 }
 
